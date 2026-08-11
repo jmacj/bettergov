@@ -2,10 +2,12 @@
 import { chromium } from '@playwright/test';
 
 const OUT = process.argv[2];
+// Variant C is the one being sent. These are its three hero treatments, on
+// tuned copy.
 const variants = [
-  ['A', 'Appended to join-us'],
-  ['B', 'join-us rebuilt around it'],
-  ['C', 'New contribute page'],
+  ['1', 'Utility (Ideas lineage)'],
+  ['2', 'Brand (Home lineage)'],
+  ['3', 'Editorial (JoinUs lineage)'],
 ];
 
 const browser = await chromium.launch();
@@ -15,7 +17,7 @@ const page = await browser.newPage({
 });
 
 for (const [key, name] of variants) {
-  const url = `http://localhost:5173/prototype/contribute?variant=${key}&copy=shared`;
+  const url = `http://localhost:5173/prototype/contribute?variant=C&copy=tuned&hero=${key}`;
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForTimeout(1200);
   // The switcher is fixed-position, so in a full-page shot it lands in the
@@ -25,7 +27,7 @@ for (const [key, name] of variants) {
     content:
       '.fixed.bottom-5, [data-prototype-bar] { display: none !important; }',
   });
-  const file = `${OUT}/variant-${key}.png`;
+  const file = `${OUT}/hero-${key}.png`;
   await page.screenshot({ path: file, fullPage: true });
   const h = await page.evaluate(() => document.body.scrollHeight);
   console.log(`${key} — ${name}: ${file} (page height ${h}px)`);

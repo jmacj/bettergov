@@ -73,8 +73,7 @@ export const ContributeRouter: FC<{ intro: Intro }> = ({ intro }) => (
     </div>
 
     <p className='text-sm text-gray-500 mt-8'>
-      Nothing here needs permission to start. If you are unsure which one fits,
-      ask in the{' '}
+      Not sure which one fits? Ask in the{' '}
       <Link to='/discord' className='text-primary-600 underline'>
         Discord
       </Link>

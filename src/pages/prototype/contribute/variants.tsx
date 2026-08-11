@@ -5,13 +5,14 @@
  * That is deliberate: content is held constant so the maintainer's pick is
  * interpretable. See entryPoints.ts.
  */
-import { ArrowRightIcon, UsersIcon } from 'lucide-react';
+import { UsersIcon } from 'lucide-react';
 import { SiDiscord } from '@icons-pack/react-simple-icons';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import JoinUs from '../../JoinUs';
 import { ContributeRouter } from './ContributeRouter';
 import { Intro } from './entryPoints';
+import { HEROES, HeroKey } from './heroMeta';
 
 export interface VariantProps {
   intro: Intro;
@@ -98,36 +99,17 @@ export const VariantB: FC<VariantProps> = ({ intro }) => (
  * Two different jobs: /join-us turns a stranger into someone interested,
  * /contribute turns someone interested into a first contribution.
  */
-export const VariantC: FC<VariantProps> = ({ intro }) => (
-  <div className='min-h-screen bg-gray-50'>
-    <section className='bg-white border-b border-gray-200'>
-      <div className='container mx-auto px-4 max-w-4xl py-12 md:py-16'>
-        <nav className='text-sm text-gray-500 mb-6'>
-          <Link to='/' className='hover:text-primary-600'>
-            Home
-          </Link>
-          <span className='mx-2'>/</span>
-          <span className='text-gray-900'>Contribute</span>
-        </nav>
-        <h1 className='text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight'>
-          Contribute to BetterGov.ph
-        </h1>
-        <p className='text-xl text-gray-600 max-w-2xl'>
-          Volunteer-led, open source, and always short of hands. Every current
-          way in is on this page.
-        </p>
-        <Link
-          to='/join-us'
-          className='inline-flex items-center gap-1.5 mt-6 text-primary-600 font-semibold hover:gap-2.5 transition-all'
-        >
-          New here? Read what BetterGov is first
-          <ArrowRightIcon className='h-4 w-4' />
-        </Link>
-      </div>
-    </section>
-
-    <section className='py-12 md:py-16'>
-      <ContributeRouter intro={intro} />
-    </section>
-  </div>
-);
+export const VariantC: FC<VariantProps & { hero: HeroKey }> = ({
+  intro,
+  hero,
+}) => {
+  const Hero = HEROES[hero];
+  return (
+    <div className='min-h-screen bg-gray-50'>
+      <Hero />
+      <section id='ways-to-help' className='py-12 md:py-16 scroll-mt-4'>
+        <ContributeRouter intro={intro} />
+      </section>
+    </div>
+  );
+};

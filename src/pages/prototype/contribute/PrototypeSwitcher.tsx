@@ -2,6 +2,8 @@
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { FC, useEffect } from 'react';
 
+import { HeroKey } from './heroMeta';
+
 export type VariantKey = 'A' | 'B' | 'C';
 export type CopyKey = 'shared' | 'tuned';
 
@@ -10,9 +12,15 @@ interface Props {
   current: VariantKey;
   name: string;
   copy: CopyKey;
+  /** null when the current variant has no hero axis. */
+  hero: HeroKey | null;
+  heroName: string;
   onChange: (next: VariantKey) => void;
   onToggleCopy: (next: CopyKey) => void;
+  onHeroChange: (next: HeroKey) => void;
 }
+
+const HEROES: readonly HeroKey[] = ['1', '2', '3'];
 
 const isTypingTarget = (el: EventTarget | null) => {
   if (!(el instanceof HTMLElement)) return false;
@@ -26,18 +34,27 @@ export const PrototypeSwitcher: FC<Props> = ({
   current,
   name,
   copy,
+  hero,
+  heroName,
   onChange,
   onToggleCopy,
+  onHeroChange,
 }) => {
   const index = variants.indexOf(current);
   const step = (delta: number) =>
     onChange(variants[(index + delta + variants.length) % variants.length]);
 
+  const heroIndex = hero ? HEROES.indexOf(hero) : 0;
+  const stepHero = (delta: number) =>
+    onHeroChange(HEROES[(heroIndex + delta + HEROES.length) % HEROES.length]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (isTypingTarget(e.target)) return;
-      if (e.key === 'ArrowLeft') step(-1);
-      if (e.key === 'ArrowRight') step(1);
+      // Left/right cycles variants; with shift held it cycles the hero, so the
+      // hero comparison can be driven without reaching for the mouse.
+      if (e.key === 'ArrowLeft') (e.shiftKey ? stepHero : step)(-1);
+      if (e.key === 'ArrowRight') (e.shiftKey ? stepHero : step)(1);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -72,6 +89,31 @@ export const PrototypeSwitcher: FC<Props> = ({
       >
         <ChevronRightIcon className='h-4 w-4' />
       </button>
+
+      {hero && (
+        <>
+          <span className='mx-1 h-5 w-px bg-white/25' />
+          <button
+            type='button'
+            onClick={() => stepHero(-1)}
+            aria-label='Previous hero'
+            className='p-2 rounded-full hover:bg-white/15'
+          >
+            <ChevronLeftIcon className='h-4 w-4' />
+          </button>
+          <span className='px-2 text-sm font-medium whitespace-nowrap'>
+            hero {hero}: {heroName}
+          </span>
+          <button
+            type='button'
+            onClick={() => stepHero(1)}
+            aria-label='Next hero'
+            className='p-2 rounded-full hover:bg-white/15'
+          >
+            <ChevronRightIcon className='h-4 w-4' />
+          </button>
+        </>
+      )}
 
       <span className='mx-1 h-5 w-px bg-white/25' />
 

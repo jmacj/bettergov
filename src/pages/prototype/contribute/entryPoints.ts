@@ -59,7 +59,7 @@ export const ENTRY_POINTS: EntryPoint[] = [
     commitment: 2,
     mode: 'report',
     modeLabel: 'Report',
-    who: 'You spotted something wrong — a broken page, outdated info, a wrong number.',
+    who: 'You spotted something wrong. A broken page, outdated info, a wrong number.',
     action: 'Open a bug report',
     href: `${REPO}/issues/new?template=bug_report.md`,
     note: 'No account beyond GitHub. Takes about two minutes.',
@@ -81,7 +81,7 @@ export const ENTRY_POINTS: EntryPoint[] = [
     commitment: 3,
     mode: 'code',
     modeLabel: 'Data',
-    who: 'You can fix or add government data — directories, hotlines, services.',
+    who: 'You can fix or add government data: directories, hotlines, services.',
     action: 'Browse the data files',
     href: `${REPO}/tree/main/src/data`,
     note: 'Plain JSON. Edit on GitHub without cloning anything.',
@@ -95,7 +95,7 @@ export const ENTRY_POINTS: EntryPoint[] = [
     who: 'You write code and want a scoped first task.',
     action: 'Find a good first issue',
     href: `${REPO}/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22`,
-    note: 'Read CONTRIBUTING.md first — it covers setup and the PR flow.',
+    note: 'Read CONTRIBUTING.md first. It covers setup and the PR flow.',
     external: true,
   },
   {
@@ -103,7 +103,7 @@ export const ENTRY_POINTS: EntryPoint[] = [
     commitment: 4,
     mode: 'review',
     modeLabel: 'Review',
-    who: 'You can read code and give feedback — often more useful than writing more.',
+    who: 'You can read code and give feedback, often more useful than writing more.',
     action: 'Review an open pull request',
     href: `${REPO}/pulls`,
     note: 'Reviews are the scarcest thing in most open-source projects.',
@@ -174,10 +174,12 @@ export const TUNED_INTRO: Record<'A' | 'B' | 'C', Intro> = {
   },
   // Standalone page. May arrive cold from a search engine, so it carries the
   // full context that the other two inherit from the page above them.
+  // The heading must not restate the hero's own headline. Hero 3 asks the
+  // page's question outright, so this one names the list instead.
   C: {
-    eyebrow: 'Contribute',
-    heading: 'What is the best way to contribute right now?',
+    eyebrow: 'Ways to help',
+    heading: 'Every way in, easiest first',
     standfirst:
-      'BetterGov.ph is a volunteer-led, open-source civic tech project. Below is every current way in, ordered by how much it asks of you — pick the first one that sounds like you.',
+      'BetterGov.ph is a volunteer-led, open-source civic tech project. Pick the first one that sounds like you. Nothing here needs permission to start.',
   },
 };
