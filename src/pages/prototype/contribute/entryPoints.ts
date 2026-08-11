@@ -35,6 +35,13 @@ export interface EntryPoint {
   who: string;
   action: string;
   href: string;
+  /**
+   * Second channel for the same job. Reporting and ideas both accept GitHub or
+   * Discord, and forcing a GitHub account on someone who just wants to say "this
+   * number is wrong" loses the report. The primary is the one that leaves a
+   * durable record; the alternate is the lower-friction one.
+   */
+  alt?: { action: string; href: string; external: boolean };
   /** Shown as a small muted note. Must be evergreen — no counts, no dates. */
   note?: string;
   external: boolean;
@@ -62,7 +69,8 @@ export const ENTRY_POINTS: EntryPoint[] = [
     who: 'You spotted something wrong. A broken page, outdated info, a wrong number.',
     action: 'Open a bug report',
     href: `${REPO}/issues/new?template=bug_report.md`,
-    note: 'No account beyond GitHub. Takes about two minutes.',
+    alt: { action: 'or say it in Discord', href: '/discord', external: false },
+    note: 'GitHub keeps a record others can pick up. Discord works if you have no account.',
     external: true,
   },
   {
@@ -73,7 +81,12 @@ export const ENTRY_POINTS: EntryPoint[] = [
     who: 'You have an idea for something BetterGov should build.',
     action: 'Share an idea',
     href: '/ideas',
-    note: 'Goes to the team as a GitHub issue.',
+    alt: {
+      action: 'or talk it through in Discord',
+      href: '/discord',
+      external: false,
+    },
+    note: 'The form files it as a GitHub issue. Discord is better for half-formed ideas.',
     external: false,
   },
   {
