@@ -92,6 +92,8 @@ import Discord from './pages/Discord';
 import SalaryGradePage from './pages/government/salary-grade/index';
 import CivicAssistant from './components/ui/CivicAssistant';
 import NotFound from './pages/NotFound';
+// PROTOTYPE — throwaway, remove before merging to main.
+import ContributePrototype from './pages/prototype/contribute';
 
 function App() {
   return (
@@ -117,6 +119,11 @@ function App() {
             <Route path='/sitemap' element={<SitemapPage />} />
             <Route path='/discord' Component={Discord} />
             <Route path='/projects' element={<Projects />} />
+            {/* PROTOTYPE — throwaway, remove before merging to main. */}
+            <Route
+              path='/prototype/contribute'
+              element={<ContributePrototype />}
+            />
 
             <Route path='/philippines'>
               <Route index element={<Navigate to='about' replace />} />
