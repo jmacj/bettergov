@@ -27,10 +27,17 @@ for (const [key, name] of variants) {
     content:
       '.fixed.bottom-5, [data-prototype-bar] { display: none !important; }',
   });
+  // Full page: shows the hero in context of the list beneath it.
   const file = `${OUT}/hero-${key}.png`;
   await page.screenshot({ path: file, fullPage: true });
+
+  // Above the fold: the crop that actually lets someone judge the hero as a
+  // hero, rather than as a band at the top of a 2700px page.
+  const fold = `${OUT}/hero-${key}-fold.png`;
+  await page.screenshot({ path: fold, fullPage: false });
+
   const h = await page.evaluate(() => document.body.scrollHeight);
-  console.log(`${key} — ${name}: ${file} (page height ${h}px)`);
+  console.log(`${key} — ${name}: full ${h}px + above-fold crop`);
 }
 
 await browser.close();
